@@ -54,6 +54,7 @@ class TestApiControllerTest extends TestCase
 
         // Assert
         $res->assertStatus(201);
+        $res->assertStatus(202);
         $this->assertSame(1, Test::count());
         $this->assertDatabaseHas('tests', [
             'name' => 'hoge1',
