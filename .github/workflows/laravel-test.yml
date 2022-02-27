@@ -6,6 +6,10 @@ jobs:
   laravel-tests:
     name: laravel phpunit test
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./src
   
     services:
       mysql:
