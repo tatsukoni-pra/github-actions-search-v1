@@ -32,7 +32,7 @@ jobs:
         env:
           cache-name: cache-composer
         with:
-          path: ./vendor
+          path: ./src/vendor
           key: ${{ runner.os }}-composer-${{ env.cache-name }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-${{ env.cache-name }}-
