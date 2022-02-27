@@ -10,7 +10,7 @@ jobs:
       run:
         shell: bash
         working-directory: ./src
-  
+
     services:
       mysql:
         image: mysql:8.0.19
@@ -22,17 +22,34 @@ jobs:
           MYSQL_DATABASE: db_testing
 
     steps:
-    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
-      with:
-        php-version: '8.0'
-    - uses: actions/checkout@v2
-    - name: Install Dependencies
-      run: composer install --no-ansi --no-interaction --no-progress --prefer-dist
-    - name: Directory Permissions
-      run: chmod -R 777 storage bootstrap/cache
-    - name: Execute tests (Unit and Feature tests) via PHPUnit
-      env:
-        DB_HOST: 127.0.0.1
-        DB_USERNAME: root
-        DB_PASSWORD: root
-      run: vendor/bin/phpunit
+      - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+        with:
+          php-version: '8.0'
+      - uses: actions/checkout@v2
+      - name: Cache Composer Package
+        id: cache
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-composer
+        with:
+          path: ./vendor
+          key: ${{ runner.os }}-composer-${{ env.cache-name }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-${{ env.cache-name }}-
+            ${{ runner.os }}-composer-
+      - name: Install Composer Package
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          composer install --no-ansi --no-interaction --no-progress --prefer-dist
+      - name: Setup Laravel Exection
+        run: |
+          chmod -R 777 storage bootstrap/cache
+          php artisan cache:clear
+          php artisan config:clear
+      - name: Execute PHPUnit
+        env:
+          DB_HOST: 127.0.0.1
+          DB_USERNAME: root
+          DB_PASSWORD: root
+        run: |
+          vendor/bin/phpunit
