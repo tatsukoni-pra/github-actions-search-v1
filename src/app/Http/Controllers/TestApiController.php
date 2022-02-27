@@ -7,12 +7,9 @@ use Illuminate\Http\Request;
 
 class TestApiController extends Controller
 {
-    /**
-     * @return array
-     */
-    public function index(): array
+    public function index()
     {
-        return Test::all()->toArray();
+        return Test::all();
     }
 
     /**
