@@ -32,6 +32,8 @@ jobs:
         env:
           cache-name: cache-composer
         with:
+          # defaults.runはrunステップのみ影響を与えるので、uses使用時はsrc/から指定する
+          # https://pc.atsuhiro-me.net/entry/2021/02/04/144553
           path: ./src/vendor
           key: ${{ runner.os }}-composer-${{ env.cache-name }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
