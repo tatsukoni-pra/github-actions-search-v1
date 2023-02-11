@@ -1,5 +1,10 @@
 name: Laravel-Test
 
+on:
+  push:
+    branches:
+      - develop
+
 jobs:
   laravel-tests:
     name: laravel phpunit test
