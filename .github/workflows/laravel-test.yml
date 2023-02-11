@@ -1,7 +1,5 @@
 name: Laravel-Test
 
-on: [push]
-
 jobs:
   laravel-tests:
     name: laravel phpunit test
