@@ -1,0 +1,28 @@
+name: Tag-Test
+
+on:
+  push:
+    tags:
+      - 'Release*'
+
+jobs:
+  tag-push-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v3
+        with:
+          ref: main
+      - name: Check tagged branch
+        run: |
+          BRANCHS=$(git branch --contains ${{ github.ref_name }})
+          set -- $BRANCHS
+          for BRANCH in $BRANCHS ; do
+            if [[ "$BRANCH" == "main" ]]; then
+              exit 0
+            fi
+          done
+          exit 1
+      - name: Next step
+        run: |
+          echo 'success'
