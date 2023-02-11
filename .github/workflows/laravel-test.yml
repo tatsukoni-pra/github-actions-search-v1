@@ -3,7 +3,7 @@ name: Laravel-Test
 on:
   push:
     branches:
-      - develop
+      - feat
 
 jobs:
   laravel-tests:
