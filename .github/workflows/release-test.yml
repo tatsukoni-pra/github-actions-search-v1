@@ -3,6 +3,8 @@ name: Release-Test
 on:
   release:
     types: [released]
+    branches:
+      - main
 
 jobs:
   release-published-job:
