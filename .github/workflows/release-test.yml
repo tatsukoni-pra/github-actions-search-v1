@@ -25,3 +25,20 @@ jobs:
       - name: echo Step
         run: |
           echo 'success'
+
+  exec-test-job:
+    needs: release-published-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo Step
+        run: |
+          echo 'success 2'
+
+  notification:
+    if: always()
+    needs: [release-published-job, exec-test-job]
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo Step
+        run: |
+          echo 'success 3'
